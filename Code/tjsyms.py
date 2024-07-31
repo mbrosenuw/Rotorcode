@@ -80,11 +80,11 @@ def tj2(j1,j2, k1,q,k2,tjs):
 
 def loadtjs(filename):
     tjs = {}
-    # if os.path.exists(filename):
-    #     with open(filename, "r", newline="") as csv_file:
-    #         reader = csv.reader(csv_file)
-    #         for row in reader:
-    #             tjs[row[0]] = float(row[1])
+    if os.path.exists(filename):
+        with open(filename, "r", newline="") as csv_file:
+            reader = csv.reader(csv_file)
+            for row in reader:
+                tjs[row[0]] = float(row[1])
     return tjs
 
 def writetjs(filename, tjs):

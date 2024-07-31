@@ -9,6 +9,7 @@ class Rotor:
         self.a = consts[0]
         self.b = consts[1]
         self.c = consts[2]
+        self.oldH = getH(self)
         self.H, self.ks = Htransform(getH(self))
         if not np.any(np.round(np.imag(self.H),5)):
             self.H = np.real(self.H)

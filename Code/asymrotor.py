@@ -4,7 +4,7 @@ from matplotlib.pyplot import cm
 from rotor import Rotor
 from boltzmann import getdenom, boltzmann
 from getasymtracks import gettracks
-from asymLS import linestrength2 as ls
+from asymLS import linestrength3 as ls
 import tjsyms
 from tqdm import tqdm
 import time
@@ -13,7 +13,7 @@ def spectra(coeffs, ucoeffs, mu, jmax, T,name, lims, width,showE):
     tic = time.time()
     freq = np.arange(lims[0], lims[1], width/5)
     spacing = width / np.diff(freq)[0]
-    window = np.round(np.array([-3 * spacing, 3 * spacing]), 0).astype('int')
+    window = np.round(np.array([-5 * spacing, 5 * spacing]), 0).astype('int')
     jsys = []
     ujsys = []
 
@@ -36,8 +36,8 @@ def spectra(coeffs, ucoeffs, mu, jmax, T,name, lims, width,showE):
         for j in range(jmax + 1):
             c = next(color)
             legend.append('J = ' + str(j))
-            ax1.hlines(sys.energies, xmin=j, xmax=j + 1, colors=c)
-            ax2.hlines(sys2.energies, xmin=j, xmax=j + 1, colors=c)
+            ax1.hlines(jsys[j].fullenergies, xmin=j, xmax=j + 1, colors=c)
+            ax2.hlines(ujsys[j].fullenergies, xmin=j, xmax=j + 1, colors=c)
         ax1.legend(legend, loc='upper left')
         ax1.set_title('Energy levels for ' + name)
         ax1.set_xlabel('J Value')

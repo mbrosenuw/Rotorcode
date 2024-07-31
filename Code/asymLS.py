@@ -242,17 +242,19 @@ def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
                     b1 = beta(phase1, k1)
 
                     k2 = 0
-                    alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
-                    b2 = np.conjugate(beta(phase2, k2))
-                    term = -1 * tj2(sys1.j, sys2.j, -1, 1, 0, tjs) * (1 + (-1) ** (phase2 + sys2.j))
-                    sum += alpha1 * alpha2 * b1 * b2 * term
+                    if k2 >= mink2 and k2 <= maxk2:
+                        alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
+                        b2 = np.conjugate(beta(phase2, k2))
+                        term = -1 * tj2(sys1.j, sys2.j, -1, 1, 0, tjs) * (1 + (-1) ** (phase2 + sys2.j))
+                        sum += alpha1 * alpha2 * b1 * b2 * term
 
                     k2 = 2
-                    alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
-                    b2 = np.conjugate(beta(phase2, k2))
-                    term = tj2(sys1.j, sys2.j, -1, -1, 2, tjs)
-                    sum += alpha1 * alpha2 * b1 * b2 * term
-                    krange1 = krange1[1:]
+                    if k2 >= mink2 and k2 <= maxk2:
+                        alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
+                        b2 = np.conjugate(beta(phase2, k2))
+                        term = tj2(sys1.j, sys2.j, -1, -1, 2, tjs)
+                        sum += alpha1 * alpha2 * b1 * b2 * term
+                        krange1 = krange1[1:]
 
                 for k1 in krange1:
                     alpha1 = wfn1[getidx(sys1, block1, k1), 0]

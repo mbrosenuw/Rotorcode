@@ -32,8 +32,8 @@ def spectra(coeffs, ucoeffs, mu, jmax, T,name, lims, width,showE):
         for j in range(jmax + 1):
             c = next(color)
             legend.append('J = ' + str(j))
-            ax1.hlines(sys.energies, xmin=j, xmax=j + 1, colors=c)
-            ax2.hlines(sys2.energies, xmin=j, xmax=j + 1, colors=c)
+            ax1.hlines(jsys[j].fullenergies, xmin=j, xmax=j + 1, colors=c)
+            ax2.hlines(ujsys[j].fullenergies, xmin=j, xmax=j + 1, colors=c)
         ax1.legend(legend, loc='upper left')
         ax1.set_title('Energy levels for ' + name)
         ax1.set_xlabel('J Value')
