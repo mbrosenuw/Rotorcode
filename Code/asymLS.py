@@ -233,7 +233,7 @@ def fastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu,
                     b1 = beta(phase1, k1)
                     alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                     b2 = np.conjugate(beta(phase2, k2))
-                    term = tj2(sys1.j, sys2.j, 0, -1, 1, tjs) * (1 + (-1) ** (phase2 + sys1.j))
+                    term = tj2(sys1.j, sys2.j, 0, -1, 1, tjs) * (1 + (-1) ** (phase1 + sys1.j))
                     sum += (-1) ** k1 *  alpha1 * alpha2 * b1 * b2 * term
                     krange1 = krange1[1:]
                 elif krange1[0] == 1:
