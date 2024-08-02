@@ -8,7 +8,7 @@ def preterms(j1,j2):
     coeff2 = 2 * j1 + 1
     return  coeff1 * coeff2 /3
 
-def linestrength(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs):
+def semifastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs):
     mx = mu[0]
     my = mu[1]
     mz = mu[2]
@@ -70,7 +70,7 @@ def linestrength(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo
                     k2 = k1 - 1
                     alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                     b2 = np.conjugate(beta(phase2, k2))
-                    term = -1 * tj2(sys1.j, sys2.j, -k1, 1, k2, tjs)
+                    term = tj2(sys1.j, sys2.j, -k1, 1, k2, tjs)
                     if k1 == 1:
                         term += (-1) **(phase2 + sys1.j) * tj2(sys1.j, sys2.j, 1, -1, 0, tjs)
                     sum += alpha1 * alpha2 * b1 * b2 * term
@@ -85,7 +85,7 @@ def linestrength(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo
     return preterms(sys1.j, sys2.j) * c2 * np.abs(sum)**2
 
 
-def linestrength2(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs):
+def LS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs):
     mx = mu[0]
     my = mu[1]
     mz = mu[2]
@@ -131,7 +131,7 @@ def linestrength2(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
     return preterms(sys1.j, sys2.j) * np.abs(sum) ** 2
 
 
-def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs):
+def fastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs):
     mx = mu[0]
     my = mu[1]
     mz = mu[2]
@@ -160,7 +160,7 @@ def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = tj2(sys1.j, sys2.j, 0, -1, 1, tjs) * (1 + (-1)**(phase1+sys1.j))
-                        sum += alpha1 *alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * alpha1 *alpha2 * b1 * b2 * term
                     krange1 = krange1[1:]
                 elif krange1[0] == 1:
                     k1 = 1
@@ -172,14 +172,14 @@ def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = -1 * tj2(sys1.j, sys2.j, -1, 1, 0, tjs) * (1 + (-1) ** (phase1 + sys2.j))
-                        sum += alpha1 * alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
 
                     k2 = 2
                     if k2 >= mink2 and k2 <= maxk2:
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = tj2(sys1.j, sys2.j, -1, -1, 2, tjs)
-                        sum += alpha1 * alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
                     krange1 = krange1[1:]
 
                 for k1 in krange1:
@@ -190,13 +190,13 @@ def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = tj2(sys1.j, sys2.j, -k1, 1, k2, tjs)
-                        sum += -1 * alpha1 * alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * -1 * alpha1 * alpha2 * b1 * b2 * term
                     if k1 + 1 >= mink2 and k1 + 1 <= maxk2:
                         k2 = k1 + 1
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = tj2(sys1.j, sys2.j, -k1, -1, k2, tjs)
-                        sum += alpha1 * alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
     elif phase1 != phase2:
         if eo1 == eo2:
             c2 = 4 * mz**2
@@ -211,7 +211,7 @@ def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = tj2(sys1.j, sys2.j, 0, 0, 0, tjs) * (1 - (-1) ** (phase2 + sys1.j))
-                        sum += alpha1 * alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
                     krange1 = krange1[1:]
 
                 for k1 in krange1:
@@ -222,7 +222,7 @@ def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = tj2(sys1.j, sys2.j, -k1, 0, k2, tjs)
-                        sum += alpha1 * alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
         else:
             c2 = 2 * my ** 2
             if c2 != 0:
@@ -233,8 +233,8 @@ def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
                     b1 = beta(phase1, k1)
                     alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                     b2 = np.conjugate(beta(phase2, k2))
-                    term = tj2(sys1.j, sys2.j, 0, -1, 1, tjs) * (1 + (-1) ** (phase2 + sys1.j))
-                    sum += alpha1 * alpha2 * b1 * b2 * term
+                    term = tj2(sys1.j, sys2.j, 0, -1, 1, tjs) * (1 + (-1) ** (phase1 + sys1.j))
+                    sum += (-1) ** k1 *  alpha1 * alpha2 * b1 * b2 * term
                     krange1 = krange1[1:]
                 elif krange1[0] == 1:
                     k1 = 1
@@ -245,15 +245,15 @@ def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
                     if k2 >= mink2 and k2 <= maxk2:
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
-                        term = -1 * tj2(sys1.j, sys2.j, -1, 1, 0, tjs) * (1 + (-1) ** (phase2 + sys2.j))
-                        sum += alpha1 * alpha2 * b1 * b2 * term
+                        term = tj2(sys1.j, sys2.j, -1, 1, 0, tjs)+ (-1) ** (phase1 + sys1.j) * tj2(sys1.j, sys2.j,1,-1,0,tjs)
+                        sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
 
                     k2 = 2
                     if k2 >= mink2 and k2 <= maxk2:
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = tj2(sys1.j, sys2.j, -1, -1, 2, tjs)
-                        sum += alpha1 * alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
                         krange1 = krange1[1:]
 
                 for k1 in krange1:
@@ -264,13 +264,15 @@ def linestrength3(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, e
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = tj2(sys1.j, sys2.j, -k1, 1, k2, tjs)
-                        sum += -1 * alpha1 * alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
                     if k1 + 1 >= mink2 and k1 + 1 <= maxk2:
                         k2 = k1 + 1
                         alpha2 = np.conjugate(wfn2[getidx(sys2, block2, k2), 0])
                         b2 = np.conjugate(beta(phase2, k2))
                         term = tj2(sys1.j, sys2.j, -k1, -1, k2, tjs)
-                        sum += alpha1 * alpha2 * b1 * b2 * term
+                        sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
     else:
         print('not valid combo of states')
     return preterms(sys1.j, sys2.j) * c2 * np.abs(sum) ** 2
+
+

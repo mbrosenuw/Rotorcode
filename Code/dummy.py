@@ -16,7 +16,7 @@ from rotor import Rotor
 
 ihoh = [16.785, 0.08717, 0.08428]
 uihoh = [16.734, 0.08613, 0.08316]
-asymrotor.spectra(ihoh, uihoh, [0,1,0],20,10,'ihoh', [-40,55], 0.005, False)
+asymrotor.spectra(ihoh, uihoh, [0,1,0],20,10,'ihoh', [45,55], 0.005, False)
 # ihoh = [0.08717, 0.08428, 16.785]
 # uihoh = [0.08613, 0.08316, 16.734]
 # asymrotor.spectra(ihoh, uihoh, [0,0,1],20,10,'ihoh', [-4,4], 0.005, False)
