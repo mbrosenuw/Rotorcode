@@ -1,26 +1,15 @@
 import symrotor
 import numpy as np
 import asymrotor
-from rotor import Rotor
-# chl = np.array([0.322, 0.322, 5.246])
-# asymrotor.spectra(chl, chl, [0, 0, 1], 30, 10, 'chloromethane', (-40, 40), 0.05,False)
+import matplotlib.pyplot as plt
 
-# water = [27.28,14.5,9.28]
-# water = [14.5,27.28,9.95]
-# sys = Rotor(4, water)
-# print(np.round(sys.oldH, decimals=2))
-# uwater = water - np.multiply(0.05,water)
-# print(water, uwater)
-# asymrotor.spectra(water,uwater, [1,1,1],20,100,'water', [-200,200], 0.5, False)
+ihod = [15.5, 0.0871, 0.0866]
+uihod = [14.5, 0.0872, 0.0867]
+freq, spec = asymrotor.spectra(ihod, uihod, [1,1,1],20,10,'ihoh', [-50,50], 2, False, stats = [1,1,1,1])
 
-
-ihoh = [16.785, 0.08717, 0.08428]
-uihoh = [16.734, 0.08613, 0.08316]
-asymrotor.spectra(ihoh, uihoh, [0,1,0],20,10,'ihoh', [45,55], 0.005, False)
-# ihoh = [0.08717, 0.08428, 16.785]
-# uihoh = [0.08613, 0.08316, 16.734]
-# asymrotor.spectra(ihoh, uihoh, [0,0,1],20,10,'ihoh', [-4,4], 0.005, False)
-# sys = Rotor(2, ihoh)
-# for wfn in sys.wfns:
-#     print(np.round(wfn,5))
-# symrotor.spectra(ihoh, uihoh, [0,0,1],20,10,'water', [-4,4], 0.005, True)
+plt.figure()
+plt.plot(freq + 3691, spec, color='red', linewidth=0.5)
+plt.title('Rotational spectrum of ihod')
+plt.xlabel('Energy (cm-1)')
+plt.ylabel('Intensity')
+plt.show()
