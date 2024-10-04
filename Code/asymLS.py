@@ -8,7 +8,7 @@ def preterms(j1,j2):
     coeff2 = 2 * j1 + 1
     return  coeff1 * coeff2 /3
 
-def semifastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs):
+def semifastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs, stats):
     mx = mu[0]
     my = mu[1]
     mz = mu[2]
@@ -72,7 +72,7 @@ def semifastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1,
                     b2 = np.conjugate(beta(phase2, k2))
                     term = tj2(sys1.j, sys2.j, -k1, 1, k2, tjs)
                     if k1 == 1:
-                        term += (-1) **(phase2 + sys1.j) * tj2(sys1.j, sys2.j, 1, -1, 0, tjs)
+                        term += (-1) **(phase1 + sys1.j) * tj2(sys1.j, sys2.j, 1, -1, 0, tjs)
                     sum += alpha1 * alpha2 * b1 * b2 * term
                 if k1+1 >= mink2 and k1+1 <= maxk2:
                     k2 = k1 + 1
@@ -80,12 +80,12 @@ def semifastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1,
                     b2 = np.conjugate(beta(phase2, k2))
                     term = tj2(sys1.j, sys2.j, -k1, -1, k2, tjs)
                     if k1 == 0:
-                        term += (-1) ** (phase2 + sys1.j) * tj2(sys1.j, sys2.j, 0, -1, 1, tjs)
+                        term += (-1) ** (phase1 + sys1.j) * tj2(sys1.j, sys2.j, 0, -1, 1, tjs)
                     sum += alpha1 * alpha2 * b1 * b2 * term
     return preterms(sys1.j, sys2.j) * c2 * np.abs(sum)**2
 
 
-def LS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs):
+def LS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs, stats):
     mx = mu[0]
     my = mu[1]
     mz = mu[2]
@@ -131,7 +131,7 @@ def LS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs
     return preterms(sys1.j, sys2.j) * np.abs(sum) ** 2
 
 
-def fastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs):
+def fastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu, tjs, stats):
     mx = mu[0]
     my = mu[1]
     mz = mu[2]
@@ -142,6 +142,17 @@ def fastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu,
     maxk2 = krange2[-1]
     mink2 = krange2[0]
 
+    #stats is given in ee eo oe oo
+    if eo1 == eo2:
+        if eo1 == 0:
+            stat = stats[0]
+        else:
+            stat = stats[3]
+    else:
+        if eo1 == 0:
+            stat = stats[1]
+        else:
+            stat = stats[2]
     sum = 0
     c2 = 0
     if phase1 == phase2:
@@ -273,6 +284,6 @@ def fastLS(sys2, tau2, block2, phase2, eo2, sys1, tau1, block1, phase1, eo1, mu,
                         sum += (-1) ** k1 * alpha1 * alpha2 * b1 * b2 * term
     else:
         print('not valid combo of states')
-    return preterms(sys1.j, sys2.j) * c2 * np.abs(sum) ** 2
+    return stat * preterms(sys1.j, sys2.j) * c2 * np.abs(sum) ** 2
 
 

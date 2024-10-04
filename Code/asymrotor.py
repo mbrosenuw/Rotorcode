@@ -9,7 +9,7 @@ import tjsyms
 from tqdm import tqdm
 import time
 
-def spectra(coeffs, ucoeffs, mu, jmax, T,name, lims, width,showE):
+def spectra(coeffs, ucoeffs, mu, jmax, T,name, lims, width,showE, stats = [1,1,1,1]):
     tic = time.time()
     freq = np.arange(lims[0], lims[1], width/5)
     spacing = width / np.diff(freq)[0]
@@ -65,7 +65,7 @@ def spectra(coeffs, ucoeffs, mu, jmax, T,name, lims, width,showE):
             samplespace[0] = 0
         sample = freq[samplespace[0]:samplespace[1]]
 
-        S = ls(ujsys[int(track[0])], int(track[1]), int(track[2]), int(track[3]), int(track[4]), jsys[int(track[5])],  int(track[6]), int(track[7]), int(track[8]), int(track[9]),mu, tjs)
+        S = ls(ujsys[int(track[0])], int(track[1]), int(track[2]), int(track[3]), int(track[4]), jsys[int(track[5])],  int(track[6]), int(track[7]), int(track[8]), int(track[9]),mu, tjs, stats)
         B = boltzmann(E1, T, denom)
         spectra[samplespace[0]:samplespace[1]] = (S * B * np.exp(-((sample - dE) ** 2) / (2 * width ** 2)))
         return spectra
@@ -76,16 +76,10 @@ def spectra(coeffs, ucoeffs, mu, jmax, T,name, lims, width,showE):
             spectra[i][:]= trans(track)
             pbar.update(1)
     spectra = np.sum(spectra, axis = 0)
-    plt.figure()
-    plt.plot(freq, spectra, color='red', linewidth=0.5)
-    plt.xlim(lims)
-    plt.title('Rotational spectrum of ' + name)
-    plt.xlabel('Energy (cm-1)')
-    plt.ylabel('Intensity')
-    plt.show()
     toc = time.time()
     elapsed_time = toc - tic
     print(f"Elapsed time: {elapsed_time} seconds")
 
     # if tjsh != tjs:
     #     tjsyms.writetjs('./tjs.csv', tjs)
+    return freq, spectra
