@@ -5,14 +5,9 @@ import matplotlib.pyplot as plt
 import os
 import csv
 
-ihod = [15.5, 0.0871, 0.0866]
-uihod = [14.5, 0.0872, 0.0867]
-lims = [-100,100]
-freq, spec = asymrotor.spectra(ihod, uihod, [0.5,0,1],30,50,'ihoh', lims, 2, False, stats = [1,1,1,1])
-
-
-filename = 'I-HOD_10K_lowres.csv'
+filename = 'IHODBinnedOutput.csv'
 spec2 = np.array([])
+# filename = 'I-HOD_10K_lowres.csv'
 freq2 = np.array([])
 if os.path.exists(filename):
     with open(filename, "r", newline="",encoding='utf-8-sig') as csv_file:
@@ -20,24 +15,46 @@ if os.path.exists(filename):
         for row in reader:
             freq2 = np.append(freq2, float(row[0]))
             spec2 = np.append(spec2, float(row[1]))
+spec2 = spec2/np.max(spec2)
 
-plt.figure()
-plt.plot(freq + 3691, 10*spec, color='red', linewidth=0.5)
-plt.plot(freq2, spec2, color='blue', linewidth=0.5)
-plt.title('Rotational spectrum of ihod')
-plt.xlabel('Energy (cm-1)')
-plt.ylabel('Intensity')
-plt.xlim([3600,3800])
-plt.ylim([-5,30])
+shift = 3687.037+0.0483
+ihod = [17.177, 0.085704, 0.0827841]
+uihod = [16.517, 0.0881541, 0.0841155]
+print(ihod)
+print(uihod)
+lims = [np.min(freq2)-shift,np.max(freq2)-shift]
+# freq, spec = asymrotor.spectra(ihod, uihod, [0.3,1,0],30,10,'ihoh', lims, 0.01, False, stats = [1,1,1,1])
+# spec = spec/np.max(spec)
+
+
+fig, axs = plt.subplots(nrows=2, ncols=1, figsize = (8,5))
+
+# plt.plot( freq + shift, -spec, color='red', linewidth=0.5)
+ax = axs[1]
+ax.plot(freq2, spec2, color='blue', linewidth=0.5)
+ax.set_title('Rotational spectrum of I-HOD')
+ax.set_xlabel('Energy (cm-1)')
+ax.set_ylabel('Intensity')
+
+spec2 = np.array([])
+filename = 'I-HOD_10K_lowres.csv'
+freq2 = np.array([])
+if os.path.exists(filename):
+    with open(filename, "r", newline="",encoding='utf-8-sig') as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            freq2 = np.append(freq2, float(row[0]))
+            spec2 = np.append(spec2, float(row[1]))
+spec2 = spec2/np.max(spec2)
+
+ax = axs[0]
+ax.plot(freq2, spec2, color='blue', linewidth=2)
+ax.set_title('Vibrational spectrum of I-HOD')
+ax.set_xlabel('Energy (cm-1)')
+ax.set_ylabel('Intensity')
+# Highlight a vertical region between x=2 and x=4
+ax.axvspan(3700, 3708, color='green', alpha=0.3)
+
+plt.subplots_adjust(top=0.88, hspace=0.45)
 plt.show()
 
-# ihoh = [16.785, 0.087166, 0.0842808]
-# uihoh= [16.734, 0.08316, 0.08613]
-# lims = [45,55]
-# freq, spec = asymrotor.spectra(ihoh, uihoh, [0,1,0],20,10,'ihoh', lims, 0.01, False, stats = [1,1,1,1])
-# plt.figure()
-# plt.plot(freq, spec, color='red', linewidth=0.5)
-# plt.title('Rotational spectrum of ihoh')
-# plt.xlabel('Energy (cm-1)')
-# plt.ylabel('Intensity')
-# plt.show()

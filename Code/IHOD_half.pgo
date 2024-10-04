@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Mixture Version="PGOPHER 11.0.138 10 Dec 2020 18:41  64 bit (fpc 3.3.1 x86_64-Darwin)" Tag="1" AllowComplex="True">
+  <Species Name="Species" Colour="Blue" Jmax="120">
+    <AsymmetricMolecule Name="I(DOH)-">
+      <AsymmetricManifold Name="Ground" Initial="True">
+        <AsymmetricTop Name="v=0">
+          <Parameter Name="A" Value="17.177"/>
+          <Parameter Name="B" Value="0.0857040091144911"/>
+          <Parameter Name="C" Value="0.0827841004707984" Float="true" StdDev="0.00279901819746776"/>
+        </AsymmetricTop>
+      </AsymmetricManifold>
+      <AsymmetricManifold Name="Excited">
+        <AsymmetricTop Name="Free OH">
+          <Parameter Name="Origin" Value="3687.07127929259" Float="true" StdDev="0.010412360580476"/>
+          <Parameter Name="A" Value="16.517"/>
+          <Parameter Name="B" Value="0.0881541290080437"/>
+          <Parameter Name="C" Value="0.0841154887094992" Float="true" StdDev="0.00167880523658382"/>
+        </AsymmetricTop>
+      </AsymmetricManifold>
+      <TransitionMoments Bra="Ground" Ket="Excited">
+        <CartesianTransitionMoment Axis="b" Bra="v=0" Ket="Free OH">
+          <Parameter Name="Strength" Value="0.0154365"/>
+        </CartesianTransitionMoment>
+        <CartesianTransitionMoment Bra="v=0" Ket="Free OH">
+          <Parameter Name="Strength" Value="0.00622539"/>
+        </CartesianTransitionMoment>
+      </TransitionMoments>
+    </AsymmetricMolecule>
+  </Species>
+  <Correlations Name="Correlations">
+    <Correlation Row="Species.I(DOH)-.Excited.&quot;Free OH&quot;.Origin" Col="Species.I(DOH)-.Ground.v=0.C" Value="-0.968826680563845"/>
+    <Correlation Row="Species.I(DOH)-.Excited.&quot;Free OH&quot;.C" Col="Species.I(DOH)-.Ground.v=0.C" Value="0.999845408848044"/>
+    <Correlation Row="Species.I(DOH)-.Excited.&quot;Free OH&quot;.C" Col="Species.I(DOH)-.Excited.&quot;Free OH&quot;.Origin" Value="-0.97239292579988"/>
+  </Correlations>
+  <Parameter Name="Gaussian" Value="0.025"/>
+  <Parameter Name="Temperature" Value="10"/>
+  <Parameter Name="Fmin" Value="3700.03342877413"/>
+  <Parameter Name="Fmax" Value="3707.98245105026"/>
+  <FormSettings Name="ConstantsWindow" ActiveObject="Simulation: Simulation"/>
+</Mixture>
