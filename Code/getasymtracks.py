@@ -20,6 +20,7 @@ def gettracks(jsys, ujsys, jmax):
             E1 = jsys[jpp].energies[blockpp][tpp - jsys[jpp].idxs[blockpp]]
             for jp in range(jmin, topj + 1):
                 for tp in range(0, 2 * jp + 1):
+                    # if not (jpp == jp and tpp == tp):
                     blockp, phasep, eop = getblock(ujsys[jp].j, tp, ujsys[jp].idxs)
                     E2 = ujsys[jp].energies[blockp][tp - ujsys[jp].idxs[blockp]]
                     if not (phasep == phasepp and eopp == eop):
