@@ -83,7 +83,7 @@ dms = [0.59406, 0.25421,0.19073]
 # dms2 = [0.25421,0.19073,0.59406]
 mu = [0,0,1]
 # mu2 = [1,0,0]
-jmax = 3
+jmax = 2
 T = 2
 lims = [-6,6]
 # width = 0.0067*1.5
@@ -102,4 +102,4 @@ plt.xlabel('Energy $[cm^{-1}]$', fontsize = 14)
 plt.legend(loc = 'best')
 plt.xlim(shift+np.array(lims))
 plt.show()
-np.savez('dms_purerotorJ3T2c.npz', freq = freq, spec = spec, shift = shift)
+np.savez('dms_purerotorJ2T2c.npz', freq = freq, spec = spec, shift = shift)
