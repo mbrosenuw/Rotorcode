@@ -4,7 +4,7 @@ from matplotlib.pyplot import cm
 from rotor import Rotor
 from boltzmann import getdenom, boltzmann
 from getasymtracks import gettracks
-from asymLS import fastLS as ls
+from asymLS import LS as ls
 import tjsyms
 from tqdm import tqdm
 import time

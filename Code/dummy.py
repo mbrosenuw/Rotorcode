@@ -80,21 +80,26 @@ import csv
 # plt.show()
 
 dms = [0.59406, 0.25421,0.19073]
-mu = [0,1,0]
-jmax = 20
-T = 20
-lims = [-12,12]
+# dms2 = [0.25421,0.19073,0.59406]
+mu = [0,0,1]
+# mu2 = [1,0,0]
+jmax = 3
+T = 2
+lims = [-6,6]
 # width = 0.0067*1.5
 width = 0.03
 freq, spec = asymrotor.spectra(dms, dms, mu,jmax,T,'Dimethyl Sulfide', lims, width, False, stats = [1,1,1,1])
+# freq2, spec2 = asymrotor.spectra(dms2, dms2, mu2,jmax,T,'Dimethyl Sulfide', lims, width, False, stats = [1,1,1,1])
 spec = spec/np.max(spec)
+# spec2 = spec2/np.max(spec2)
 fig = plt.figure(figsize=(7,5))
 shift = 1033
 plt.plot(shift+freq, spec, color = 'red', label = 'Theory', linewidth = 0.5)
+# plt.plot(shift+freq2, -spec2, color = 'blue', label = 'permuted Theory', linewidth = 0.5)
 plt.title('Rotational Spectrum of Dimethyl Sulfide', fontsize=18)
 plt.ylabel('Intensity', fontsize = 14)
 plt.xlabel('Energy $[cm^{-1}]$', fontsize = 14)
 plt.legend(loc = 'best')
 plt.xlim(shift+np.array(lims))
 plt.show()
-np.savez('dms_purerotor2.npz', freq = freq, spec = spec, shift = shift)
+np.savez('dms_purerotorJ3T2c.npz', freq = freq, spec = spec, shift = shift)
